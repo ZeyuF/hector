@@ -620,12 +620,20 @@ double SimpleNbox::calc_co2fert(std::string biome, double time) const {
 fluxpool SimpleNbox::npp(std::string biome, double time) const {
   fluxpool npp(npp_flux0.at(biome).value(U_PGC_YR),
                U_PGC_YR); // 'at' throws exception if not found
-  if (time == Core::undefinedIndex()) {
+  
+  /* if (time == Core::undefinedIndex()) {
     npp = npp * co2fert.at(biome); // that's why used here instead of []
   } else {
     npp = npp * calc_co2fert(biome, time);
-  }
+  } */
 
+  // Only LUE
+   if (time == Core::undefinedIndex()) {
+      npp = npp * co2fert.at(biome) * (1 + (0.001639 - 2 * 0.0004306 * temp) * (1 / (0.3761 + 0.001639 * temp - 0.0004306 * temp * temp)) * temp); // that's why used here instead of []
+   } else {
+      npp = npp * calc_co2fert(biome, time) * (1 + (0.001639 - 2 * 0.0004306 * temp) * (1 / (0.3761 + 0.001639 * temp - 0.0004306 * temp * temp)) * temp);
+   }
+   
   // LUC causes loss (or gains) to vegetation; account for this
   npp = npp * npp_luc_adjust;
 
