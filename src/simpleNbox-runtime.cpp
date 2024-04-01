@@ -618,6 +618,7 @@ double SimpleNbox::calc_co2fert(std::string biome, double time) const {
  *  \returns    current annual NPP
  */
 fluxpool SimpleNbox::npp(std::string biome, double time) const {
+  unitval temp = core->sendMessage(M_GETDATA, D_GLOBAL_TAS);
   fluxpool npp(npp_flux0.at(biome).value(U_PGC_YR),
                U_PGC_YR); // 'at' throws exception if not found
   
