@@ -637,10 +637,17 @@ fluxpool SimpleNbox::npp(std::string biome, double time) const {
   // }
    
   // Only CUE-min
+  // if (time == Core::undefinedIndex()) {
+  //    npp = npp * co2fert.at(biome) * (1 + 0.0056 * ( 1 / (0.0056 * temp + 0.46) ) * temp ); // that's why used here instead of []
+  // } else {
+  //    npp = npp * calc_co2fert(biome, time) * (1 + 0.0056 * ( 1 / (0.0056 * temp + 0.46) ) * temp );
+  // }
+
+  // Only CUE-max
    if (time == Core::undefinedIndex()) {
-      npp = npp * co2fert.at(biome) * (1 + 0.0056 * ( 1 / (0.0056 * temp + 0.46) ) * temp ); // that's why used here instead of []
+      npp = npp * co2fert.at(biome) * (1 + 0.0064 * ( 1 / (0.0064 * temp + 0.46) ) * temp ); // that's why used here instead of []
    } else {
-      npp = npp * calc_co2fert(biome, time) * (1 + 0.0056 * ( 1 / (0.0056 * temp + 0.46) ) * temp );
+      npp = npp * calc_co2fert(biome, time) * (1 + 0.0064 * ( 1 / (0.0064 * temp + 0.46) ) * temp );
    }
    
   // LUC causes loss (or gains) to vegetation; account for this
